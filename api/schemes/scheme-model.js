@@ -36,11 +36,18 @@ function findById(scheme_id) { // EXERCISE B
       SELECT
           sc.scheme_name,
           st.*
-      FROM schemes as sc
+      FROM schemes as sc ***
       LEFT JOIN steps as st
-          ON sc.scheme_id = st.scheme_id
+          ON sc.scheme_id = st.scheme_id ***
       WHERE sc.scheme_id = 1
       ORDER BY st.step_number ASC;
+
+      db('schemes as sc')
+        .leftJoin('steps as st', 'sc.scheme_id', 'st.scheme_id')
+        .select('sc.scheme_name', 'st.*')
+        .orderBy('st.step_number','asc')
+        .where('sc.scheme_id', scheme_id)
+        .first()
 
     2B- When you have a grasp on the query go ahead and build it in Knex
     making it parametric: instead of a literal `1` you should use `scheme_id`.
@@ -95,6 +102,12 @@ function findById(scheme_id) { // EXERCISE B
         "steps": []
       }
   */
+      return db('schemes as sc')
+      .leftJoin('steps as st', 'sc.scheme_id', 'st.scheme_id')
+      .select('sc.scheme_name', 'st.*')
+      .orderBy('st.step_number','asc')
+      .where('sc.scheme_id', scheme_id)
+      .first()
 }
 
 function findSteps(scheme_id) { // EXERCISE C
